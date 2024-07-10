@@ -60,9 +60,17 @@
     <Analyzer Include="E:\GameDev Apps\Unity Editor\2022.3.35f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Components\TransformMovement.cs" />
-    <Compile Include="Assets\Scripts\Camera\CameraInstaller.cs" />
-    <Compile Include="Assets\Scripts\Camera\CameraInput.cs" />
+    <Compile Include="Assets\Scripts\Movement\RigidbodyMovement.cs" />
+    <Compile Include="Assets\Scripts\Movement\IMovementType.cs" />
+    <Compile Include="Assets\Scripts\Input\OrientationController.cs" />
+    <Compile Include="Assets\Scripts\GameInstaller.cs" />
+    <Compile Include="Assets\Scripts\Input\InputController.cs" />
+    <Compile Include="Assets\Scripts\Input\IMousePositionObserver.cs" />
+    <Compile Include="Assets\Scripts\Movement\MovementController.cs" />
+    <Compile Include="Assets\Scripts\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\CameraController.cs" />
+    <Compile Include="Assets\Scripts\Movement\TransformMovement.cs" />
+    <Compile Include="Assets\Scripts\Input\IMovementDirectionObserver.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
