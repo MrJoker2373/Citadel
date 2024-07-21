@@ -1,46 +1,33 @@
 ﻿namespace Citadel.Unity
 {
     using UnityEngine;
-    using Citadel.Unity.Input;
-    using Citadel.Unity.Movement;
-    public sealed class CameraController : IMousePositionObserver
+    public sealed class CameraController
     {
-        private readonly OrientationController _orientation;
-        private readonly MovementController _movement;
-        private readonly RectTransform _left;
-        private readonly RectTransform _right;
-        private readonly RectTransform _down;
-        private readonly RectTransform _up;
-        public CameraController(
-            OrientationController orientation,
-            MovementController movement,
-            RectTransform left,
-            RectTransform right,
-            RectTransform down,
-            RectTransform up)
+        private readonly Transform _transform;
+        private readonly float _speed;
+        private Vector3 _direction;
+        private bool _isMoving;
+        public CameraController(Transform transform, float speed)
         {
-            _orientation = orientation;
-            _movement = movement;
-            _left = left;
-            _right = right;
-            _down = down;
-            _up = up;
+            _transform = transform;
+            _speed = speed;
         }
-        public void OnMousePositionChanged(Vector2 input)
+        public void Move()
         {
-            var isLeft = _left.rect.Contains(_left.InverseTransformPoint(input));
-            var isRight = _right.rect.Contains(_right.InverseTransformPoint(input));
-            var isDown = _down.rect.Contains(_down.InverseTransformPoint(input));
-            var isUp = _up.rect.Contains(_up.InverseTransformPoint(input));
-            if (isLeft == false && isRight == false && isDown == false && isUp == false)
-                _movement.Stop();
-            else
-            {
-                var direction = _orientation.GetDirection(isLeft, isRight, isDown, isUp);
-                _movement.SetDirection(direction.normalized);
-                if (_movement.IsMoving() == false)
-                    _movement.Move();
-            }
+            _isMoving = true;
+        }
+        public void Stop()
+        {
+            _isMoving = false;
+        }
+        public void Rotate(Vector3 direction)
+        {
+            _direction = direction;
+        }
+        public void LastUpdate(in float delta)
+        {
+            if(_isMoving == true)
+                _transform.position += _direction * _speed * delta;
         }
     }
 }
