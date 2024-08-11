@@ -15,6 +15,8 @@
         [SerializeField] private float _rotationSpeed;
         [Header(nameof(UnitAttack))]
         [SerializeField] private int _damageAmount;
+        [Header(nameof(UnitDeath))]
+        [SerializeField] private GameObject _root;
         [Header(nameof(UnitHealth))]
         [SerializeField] private int _healthAmount;
         [Header(nameof(UnitNavigation))]
@@ -24,6 +26,7 @@
         private AnimationController _animation;
         private UnitMovement _movement;
         private UnitAttack _attack;
+        private UnitDeath _death;
         private UnitHealth _health;
         private UnitNavigation _navigation;
         private List<object> _container;
@@ -56,7 +59,8 @@
             _animation = new(_animator);
             _movement = new(_animation, _rigidbody, _movementSpeed, _rotationSpeed);
             _attack = new(_animation, _damageAmount);
-            _health = new(gameObject, _healthAmount);
+            _death = new(_animation, _root);
+            _health = new(_death, _healthAmount);
             _navigation = new(_movement, _attack, _target, _chaseRange, _stopRange);
         }
         private void InitializeContainer()
@@ -66,6 +70,7 @@
                 _animation,
                 _movement,
                 _attack,
+                _death,
                 _health,
                 _navigation
             };

@@ -20,6 +20,8 @@
         [Header(nameof(UnitInventory))]
         [SerializeField] private TextMeshProUGUI _coinsLabel;
         [SerializeField] private TextMeshProUGUI _bombsLabel;
+        [Header(nameof(UnitDeath))]
+        [SerializeField] private GameObject _root;
         [Header(nameof(UnitHealth))]
         [SerializeField] private int _healthAmount;
         [Header(nameof(UnitInput))]
@@ -33,6 +35,7 @@
         private UnitRoll _roll;
         private UnitAttack _attack;
         private UnitInventory _inventory;
+        private UnitDeath _death;
         private UnitHealth _health;
         private UnitInput _input;
         private List<object> _container;
@@ -65,7 +68,8 @@
             _roll = new(_animation);
             _attack = new(_animation, _damageAmount);
             _inventory = new(_coinsLabel, _bombsLabel);
-            _health = new(gameObject, _healthAmount);
+            _death = new UnitDeath(_animation, _root);
+            _health = new(_death, _healthAmount);
             _input = new(_movementInput, _rollInput, _attackInput, _collectInput, _orientation, _movement, _roll, _attack, _inventory);
         }
         private void InitializeContainer()
@@ -77,6 +81,7 @@
                 _roll,
                 _attack,
                 _inventory,
+                _death,
                 _health,
                 _input
             };

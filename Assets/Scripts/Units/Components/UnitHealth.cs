@@ -1,13 +1,12 @@
 ﻿namespace Citadel.Unity.Units.Components
 {
-    using UnityEngine;
     public class UnitHealth
     {
-        private readonly GameObject _root;
+        private readonly UnitDeath _death;
         private int _health;
-        public UnitHealth(GameObject root, int health)
+        public UnitHealth(UnitDeath death, int health)
         {
-            _root = root;
+            _death = death;
             _health = health;
         }
         public void RemoveHealth(int health)
@@ -23,7 +22,7 @@
         private void Kill()
         {
             _health = 0;
-            Object.Destroy(_root);
+            _death.Death();
         }
     }
 }

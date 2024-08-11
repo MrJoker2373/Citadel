@@ -501,6 +501,7 @@ MonoBehaviour:
   _movementSpeed: 4
   _rotationSpeed: 0.5
   _damageAmount: 25
+  _root: {fileID: 503117568}
   _healthAmount: 100
   _target: {fileID: 621130697}
   _chaseRange: 6
@@ -949,6 +950,7 @@ MonoBehaviour:
   _damageAmount: 25
   _coinsLabel: {fileID: 965801909}
   _bombsLabel: {fileID: 1872233475}
+  _root: {fileID: 621130696}
   _healthAmount: 100
   _movementInput:
     m_Name: Movement Input

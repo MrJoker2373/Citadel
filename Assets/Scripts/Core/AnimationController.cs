@@ -30,7 +30,7 @@
             await WaitForEnd();
             _isPlaying = false;
         }
-        private async Task Stop()
+        public async Task Stop()
         {
             if (_isPlaying == true)
             {

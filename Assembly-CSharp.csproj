@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\Units\Components\UnitRoll.cs" />
     <Compile Include="Assets\Scripts\Units\PlayerBehaviour.cs" />
     <Compile Include="Assets\Scripts\Units\Components\UnitAttack.cs" />
+    <Compile Include="Assets\Scripts\Units\Components\UnitDeath.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraBehaviour.cs" />
     <Compile Include="Assets\Scripts\Core\OrientationController.cs" />
     <Compile Include="Assets\Scripts\Units\Components\ICollectible.cs" />
