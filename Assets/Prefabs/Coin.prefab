@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1625659534899534649}
   - component: {fileID: 4698460672694820926}
-  - component: {fileID: 8214250978155650219}
+  - component: {fileID: 6227215521864831158}
+  - component: {fileID: 4910488667765684581}
   m_Layer: 0
   m_Name: Coin
   m_TagString: Untagged
@@ -55,7 +56,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.3
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8214250978155650219
+--- !u!114 &6227215521864831158
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -64,7 +65,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 149614982176733455}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89d16f290f7d95e43a26a8861f48fcfd, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
+--- !u!114 &4910488667765684581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149614982176733455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4d8dd69b7de9fd4f965a487c0f6bcfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8016677064790820375
@@ -125,6 +146,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
