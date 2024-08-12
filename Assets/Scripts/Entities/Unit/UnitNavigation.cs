@@ -1,4 +1,4 @@
-﻿namespace Citadel.Unity.Units.Components
+﻿namespace Citadel.Unity.Entities.Unit
 {
     using UnityEngine;
     using UnityEngine.AI;
@@ -29,10 +29,14 @@
             else
             {
                 var distance = Vector3.Distance(_movement.GetPosition(), _target.position);
-                if (distance <= _stopRange)
-                    Attack();
-                else if (distance > _chaseRange)
+                if (distance > _chaseRange)
                     _movement.IdleState();
+                else if (distance <= _stopRange)
+                {
+                    var direction = _target.position - _movement.GetPosition();
+                    _movement.SetDirection(direction.normalized);
+                    Attack();
+                }
                 else
                 {
                     var path = new NavMeshPath();

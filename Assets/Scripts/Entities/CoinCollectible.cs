@@ -1,8 +1,8 @@
-﻿namespace Citadel.Unity
+﻿namespace Citadel.Unity.Entities
 {
     using UnityEngine;
-    using Citadel.Unity.Units.Components;
-    public class BombCollectible : MonoBehaviour, ICollectible
+    using Citadel.Unity.Entities.Unit;
+    public class CoinCollectible : MonoBehaviour, ICollectible
     {
         public void Collect()
         {
@@ -10,11 +10,11 @@
         }
         public bool IsPassive()
         {
-            return false;
+            return true;
         }
         public bool IsType(ICollectible.CollectibleType type)
         {
-            return type == ICollectible.CollectibleType.Bomb;
+            return type == ICollectible.CollectibleType.Coin;
         }
     }
 }

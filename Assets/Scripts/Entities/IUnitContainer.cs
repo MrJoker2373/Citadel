@@ -1,4 +1,4 @@
-﻿namespace Citadel.Unity.Units
+﻿namespace Citadel.Unity.Entities
 {
     public interface IUnitContainer
     {

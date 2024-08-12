@@ -1,13 +1,11 @@
-﻿namespace Citadel.Unity.Units
+﻿namespace Citadel.Unity.Entities
 {
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
-    using UnityEngine.InputSystem;
-    using TMPro;
     using Citadel.Unity.Core;
-    using Citadel.Unity.Units.Components;
-    public class PlayerBehaviour : MonoBehaviour, IUnitContainer
+    using Citadel.Unity.Entities.Unit;
+    public class EnemyBehaviour : MonoBehaviour, IUnitContainer
     {
         [Header(nameof(AnimationController))]
         [SerializeField] private Animator _animator;
@@ -17,33 +15,30 @@
         [SerializeField] private float _rotationSpeed;
         [Header(nameof(UnitAttack))]
         [SerializeField] private int _damageAmount;
-        [Header(nameof(UnitInventory))]
-        [SerializeField] private TextMeshProUGUI _coinsLabel;
-        [SerializeField] private TextMeshProUGUI _bombsLabel;
         [Header(nameof(UnitDeath))]
         [SerializeField] private GameObject _root;
         [Header(nameof(UnitHealth))]
         [SerializeField] private int _healthAmount;
-        [Header(nameof(UnitInput))]
-        [SerializeField] private InputAction _movementInput;
-        [SerializeField] private InputAction _rollInput;
-        [SerializeField] private InputAction _attackInput;
-        [SerializeField] private InputAction _collectInput;
-        [SerializeField] private OrientationController _orientation;
+        [Header(nameof(UnitNavigation))]
+        [SerializeField] private Transform _target;
+        [SerializeField] private float _chaseRange;
+        [SerializeField] private float _stopRange;
         private AnimationController _animation;
         private UnitMovement _movement;
-        private UnitRoll _roll;
         private UnitAttack _attack;
-        private UnitInventory _inventory;
         private UnitDeath _death;
         private UnitHealth _health;
-        private UnitInput _input;
+        private UnitNavigation _navigation;
         private List<object> _container;
         private void Awake()
         {
             InitializeComponents();
             InitializeContainer();
             _movement.EnterState();
+        }
+        private void Update()
+        {
+            _navigation.Update();
         }
         private void FixedUpdate()
         {
@@ -56,21 +51,17 @@
         }
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent<ICollectible>(out var collectible))
-                _input.SetCollectible(collectible);
-            else if (other.TryGetComponent<IUnitContainer>(out var container))
+            if (other.TryGetComponent<IUnitContainer>(out var container))
                 _attack.SetHealth(container.GetUnitComponent<UnitHealth>());
         }
         private void InitializeComponents()
         {
             _animation = new(_animator);
             _movement = new(_animation, _rigidbody, _movementSpeed, _rotationSpeed);
-            _roll = new(_animation);
             _attack = new(_animation, _damageAmount);
-            _inventory = new(_coinsLabel, _bombsLabel);
-            _death = new UnitDeath(_animation, _root);
+            _death = new(_animation, _root);
             _health = new(_death, _healthAmount);
-            _input = new(_movementInput, _rollInput, _attackInput, _collectInput, _orientation, _movement, _roll, _attack, _inventory);
+            _navigation = new(_movement, _attack, _target, _chaseRange, _stopRange);
         }
         private void InitializeContainer()
         {
@@ -78,12 +69,10 @@
             {
                 _animation,
                 _movement,
-                _roll,
                 _attack,
-                _inventory,
                 _death,
                 _health,
-                _input
+                _navigation
             };
         }
         public T GetUnitComponent<T>() where T : class

@@ -1,4 +1,4 @@
-﻿namespace Citadel.Unity.Camera
+﻿namespace Citadel.Unity.Entities.Camera
 {
     using UnityEngine;
     public class CameraMovement

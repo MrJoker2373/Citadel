@@ -1,4 +1,4 @@
-﻿namespace Citadel.Unity.Units.Components
+﻿namespace Citadel.Unity.Entities.Unit
 {
     using TMPro;
     public class UnitInventory

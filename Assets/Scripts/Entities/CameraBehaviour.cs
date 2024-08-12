@@ -1,8 +1,9 @@
-﻿namespace Citadel.Unity.Camera
+﻿namespace Citadel.Unity.Entities
 {
     using UnityEngine;
     using UnityEngine.InputSystem;
     using Citadel.Unity.Core;
+    using Citadel.Unity.Entities.Camera;
     public class CameraBehaviour : MonoBehaviour
     {
         [Header(nameof(CameraMovement))]
