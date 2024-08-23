@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1625659534899534649}
   - component: {fileID: 4698460672694820926}
   - component: {fileID: 6227215521864831158}
-  - component: {fileID: 4984851505594035872}
+  - component: {fileID: 8788164632704037047}
   m_Layer: 0
   m_Name: Bomb
   m_TagString: Untagged
@@ -76,7 +76,7 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
---- !u!114 &4984851505594035872
+--- !u!114 &8788164632704037047
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -85,9 +85,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 149614982176733455}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6e6f97c9b848c34ba6502de16c1f44c, type: 3}
+  m_Script: {fileID: 11500000, guid: a93653ad3e51ced40a694c45b720d032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _type: 1
+  _isPassive: 0
 --- !u!1 &8016677064790820375
 GameObject:
   m_ObjectHideFlags: 0
@@ -100,7 +102,7 @@ GameObject:
   - component: {fileID: 6462429429620313103}
   - component: {fileID: 2770206147939023973}
   m_Layer: 0
-  m_Name: Mesh
+  m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
