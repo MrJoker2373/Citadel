@@ -5,7 +5,5 @@
     public interface ISpecialState : IUnitState
     {
         public Task Start();
-
-        public void Stop();
     }
 }

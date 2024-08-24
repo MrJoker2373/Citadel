@@ -4,14 +4,9 @@
 
     public class UnitRoll : ISpecialState
     {
-        private const string ROLL_ANIMATION = "Roll";
+        private const string ROLL_KEY = "Roll";
         private UnitAnimation _animation;
-        private bool _isActive;
-
-        public bool IsActive()
-        {
-            return _isActive;
-        }
+        private bool _isRoll;
 
         public void Compose(UnitAnimation animation)
         {
@@ -20,14 +15,17 @@
 
         public async Task Start()
         {
-            _isActive = true;
-            await _animation.Play(ROLL_ANIMATION);
-            Stop();
+            if (_isRoll == false)
+            {
+                _isRoll = true;
+                await _animation.Play(ROLL_KEY);
+                Stop();
+            }
         }
 
         public void Stop()
         {
-            _isActive = false;
+            _isRoll = false;
             _animation.Stop();
         }
     }

@@ -16,18 +16,21 @@
         [SerializeField] private Collider[] _ragdollColliders;
         [SerializeField] private TextMeshProUGUI _coinsLabel;
         [SerializeField] private TextMeshProUGUI _bombsLabel;
-        [SerializeField] private InputAction _movementInput;
+        [SerializeField] private InputAction _rotationInput;
+        [SerializeField] private InputAction _crouchInput;
         [SerializeField] private InputAction _rollInput;
         [SerializeField] private InputAction _attackInput;
         [SerializeField] private InputAction _collectInput;
         [SerializeField] private OrientationController _orientation;
 
-        [SerializeField] private float _speedAmount;
+        [SerializeField] private float _defaultSpeedAmount;
+        [SerializeField] private float _crouchSpeedAmount;
         [SerializeField] private int _damageAmount;
         [SerializeField] private int _healthAmount;
         [SerializeField] private int _deathDelay;
 
         private UnitAnimation _animation;
+        private UnitPhysics _physics;
         private UnitRagdoll _ragdoll;
         private UnitRotation _rotation;
 
@@ -44,8 +47,8 @@
 
         private void FixedUpdate()
         {
+            _physics.Update();
             _rotation.Update();
-            _movement.Update();
         }
 
         private void LateUpdate()
@@ -79,6 +82,7 @@
         private void CreateObjects()
         {
             _animation = new();
+            _physics = new();
             _ragdoll = new();
             _rotation = new();
             _machine = new();
@@ -93,6 +97,7 @@
             _container = new List<object>()
             {
                 _animation,
+                _physics,
                 _ragdoll,
                 _rotation,
                 _machine,
@@ -109,19 +114,18 @@
         private void ComposeObjects()
         {
             _animation.Compose(_animator);
+            _physics.Compose(_rigidbody);
             _ragdoll.Compose(_animation, _rigidbody, _collider, _ragdollRigidbodies, _ragdollColliders);
-            _rotation.Compose(_machine, _movement, _rigidbody);
-            var defaultStates = new IDefaultState[] { _idle, _movement };
-            var specialStatess = new ISpecialState[] { _attack, _roll };
-            _machine.Compose(defaultStates, specialStatess, _death);
+            _rotation.Compose(_machine, _physics, _rigidbody);
+            _machine.Compose(_idle, _movement, _attack, _roll, _death);
             _idle.Compose(_animation);
-            _movement.Compose(_animation, _rigidbody, _speedAmount);
+            _movement.Compose(_physics, _animation, _defaultSpeedAmount, _crouchSpeedAmount);
             _attack.Compose(_animation, _health, _damageAmount);
             _health.Compose(_machine, _healthAmount);
             _death.Compose(_ragdoll, this, _deathDelay);
             _roll.Compose(_animation);
             _inventory.Compose(_coinsLabel, _bombsLabel);
-            _input.Compose(_movementInput, _rollInput, _attackInput, _collectInput, _orientation, _machine, _rotation, _inventory);
+            _input.Compose(_rotationInput, _crouchInput, _rollInput, _attackInput, _collectInput, _orientation, _machine, _rotation, _inventory);
         }
 
         private void ConfigurateObjects()

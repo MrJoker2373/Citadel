@@ -3075,7 +3075,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.15
+  m_Radius: 0.325
   m_Height: 1.8258159
   m_Direction: 1
   m_Center: {x: 0, y: 0.91290796, z: 0}
@@ -3140,54 +3140,71 @@ MonoBehaviour:
   - {fileID: 8270015086019322882}
   _coinsLabel: {fileID: 965801909}
   _bombsLabel: {fileID: 1872233475}
-  _movementInput:
-    m_Name: Movement Input
+  _rotationInput:
+    m_Name: Rotation Input
     m_Type: 2
     m_ExpectedControlType: Vector2
-    m_Id: b5b3d1b7-7714-481b-bc73-f710ddfc8909
+    m_Id: b91a2cba-b8fa-4e8f-99d0-d4b2c4bee68a
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings:
     - m_Name: 2D Vector
-      m_Id: de1de3ff-91f7-4f20-b8f1-fe45f127a690
+      m_Id: d0b182af-4b20-4157-873c-6f948e499381
       m_Path: 2DVector
       m_Interactions: 
       m_Processors: 
       m_Groups: 
-      m_Action: Movement Input
+      m_Action: Rotation Input
       m_Flags: 4
     - m_Name: up
-      m_Id: cdce5b91-f46e-478e-a7e5-c8009d349a4a
+      m_Id: 3f60cea9-8460-4ae9-a99a-04782cf12cde
       m_Path: <Keyboard>/w
       m_Interactions: 
       m_Processors: 
       m_Groups: 
-      m_Action: Movement Input
+      m_Action: Rotation Input
       m_Flags: 8
     - m_Name: down
-      m_Id: 0bc3310c-ae18-4da4-b582-8e527419207c
+      m_Id: 5a554e78-259b-47e0-a8cc-7b98dbe7c701
       m_Path: <Keyboard>/s
       m_Interactions: 
       m_Processors: 
       m_Groups: 
-      m_Action: Movement Input
+      m_Action: Rotation Input
       m_Flags: 8
     - m_Name: left
-      m_Id: 6dfa882f-04e8-4c33-82f2-05f46158954b
+      m_Id: 44b64c3e-6aa0-44ef-bd3c-eda8d6ea16bb
       m_Path: <Keyboard>/a
       m_Interactions: 
       m_Processors: 
       m_Groups: 
-      m_Action: Movement Input
+      m_Action: Rotation Input
       m_Flags: 8
     - m_Name: right
-      m_Id: a6791639-7868-4964-a8dd-d03c2dd9b046
+      m_Id: 9f6c204a-c1dc-4641-a024-ffec62be2e86
       m_Path: <Keyboard>/d
       m_Interactions: 
       m_Processors: 
       m_Groups: 
-      m_Action: Movement Input
+      m_Action: Rotation Input
       m_Flags: 8
+    m_Flags: 0
+  _crouchInput:
+    m_Name: Crouch Input
+    m_Type: 2
+    m_ExpectedControlType: Button
+    m_Id: 45b2d704-a3ce-49d7-a633-b842c207a9f9
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 4f9e9c8c-0189-456c-af72-b99fc2ba54f5
+      m_Path: <Keyboard>/leftShift
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Crouch Input
+      m_Flags: 0
     m_Flags: 0
   _rollInput:
     m_Name: Roll Input
@@ -3241,7 +3258,8 @@ MonoBehaviour:
       m_Flags: 0
     m_Flags: 0
   _orientation: {fileID: 1667177787}
-  _speedAmount: 5
+  _defaultSpeedAmount: 5
+  _crouchSpeedAmount: 2
   _damageAmount: 25
   _healthAmount: 100
   _deathDelay: 10000
@@ -9594,7 +9612,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.15
+  m_Radius: 0.325
   m_Height: 1.8258159
   m_Direction: 1
   m_Center: {x: 0, y: 0.91290796, z: 0}

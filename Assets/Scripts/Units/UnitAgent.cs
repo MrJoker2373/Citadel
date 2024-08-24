@@ -11,7 +11,7 @@
         private float _chaseRange;
         private float _stopRange;
         private UnitController _target;
-        private UnitDeath _targetDeath;
+        private UnitMachine _targetMachine;
 
         public void Compose(
             UnitController controller,
@@ -30,14 +30,14 @@
         public void SetTarget(UnitController target)
         {
             _target = target;
-            _targetDeath = target.GetUnitComponent<UnitDeath>();
+            _targetMachine = target.GetUnitComponent<UnitMachine>();
         }
 
         public void Update()
         {
             if (_target == null)
                 Idle();
-            else if (_targetDeath.IsActive() == true)
+            else if (_targetMachine.GetCurrentState() is UnitDeath)
                 Idle();
             else
             {
@@ -52,25 +52,25 @@
         }
         private void Idle()
         {
-            _machine.DefaultState<UnitIdle>();
+            _machine.IdleState();
         }
         private void Chase()
         {
             if (FindPath(out var direction) == true)
             {
                 _rotation.Rotate(direction);
-                _machine.DefaultState<UnitMovement>();
+                _machine.MovementState();
             }
             else
             {
-                _machine.DefaultState<UnitIdle>();
+                _machine.IdleState();
             }
         }
         private void Attack()
         {
             var direction = _target.GetPosition() - _controller.GetPosition();
             _rotation.Rotate(direction);
-            _machine.SpecialState<UnitAttack>();
+            _machine.AttackState();
         }
         private bool FindPath(out Vector3 direction)
         {

@@ -1,77 +1,125 @@
 ﻿namespace Citadel.Units
 {
-    using System.Linq;
-
     public class UnitMachine
     {
-        private IDefaultState[] _defaultStates;
-        private ISpecialState[] _specialStates;
-        private IDeathState _deathState;
+        private UnitIdle _idle;
+        private UnitMovement _movement;
+        private UnitAttack _attack;
+        private UnitRoll _roll;
+        private UnitDeath _death;
         private IUnitState _currentState;
         private IDefaultState _currentDefault;
         private ISpecialState _currentSpecial;
-
-        public void Compose(
-            IDefaultState[] defaultStates,
-            ISpecialState[] specialStates,
-            IDeathState deathState)
-        {
-            _defaultStates = defaultStates;
-            _specialStates = specialStates;
-            _deathState = deathState;
-        }
 
         public IUnitState GetCurrentState()
         {
             return _currentState;
         }
 
+        public void Compose(
+            UnitIdle idle, 
+            UnitMovement movement, 
+            UnitAttack attack,
+            UnitRoll roll, 
+            UnitDeath death)
+        {
+            _idle = idle;
+            _movement = movement;
+            _attack = attack;
+            _roll = roll;
+            _death = death;
+        }
+
         public void StartState()
         {
-            _currentState = _currentDefault = _defaultStates[0];
-            _currentSpecial = _specialStates[0];
+            _currentState = _currentDefault = _idle;
+            _currentSpecial = _attack;
             _currentDefault.Start();
         }
 
-        public void DefaultState<T>() where T : IDefaultState
+        public void IdleState()
         {
-            if (_currentState is IDefaultState)
-                _currentDefault.Stop();
-            _currentDefault = _defaultStates.OfType<T>().Single();
+            if (_currentState is IDeathState)
+                return;
+            _currentDefault = _idle;
             if (_currentState is IDefaultState)
             {
+                _currentState.Stop();
                 _currentState = _currentDefault;
                 _currentDefault.Start();
             }
         }
 
-        public async void SpecialState<T>() where T : ISpecialState
+        public void MovementState()
         {
-            if (_currentState is not IDeathState)
+            if (_currentState is IDeathState)
+                return;
+            _currentDefault = _movement;
+            if (_currentState is IDefaultState)
             {
-                if (_currentSpecial.IsActive() == false)
+                _currentState.Stop();
+                _currentState = _currentDefault;
+                _currentDefault.Start();
+            }
+        }
+
+        public void DefaultState()
+        {
+            if (_currentState is IDeathState)
+                return;
+            _idle.Default();
+            _movement.Default();
+        }
+
+        public void CrouchState()
+        {
+            if (_currentState is IDeathState)
+                return;
+            _idle.Crouch();
+            _movement.Crouch();
+        }
+
+        public async void AttackState()
+        {
+            if (_currentState is IDeathState)
+                return;
+            if (_currentState is UnitAttack)
+                _currentSpecial.Start();
+            else if (_currentState is not ISpecialState)
+            {
+                _currentState.Stop();
+                _currentState = _currentSpecial = _attack;
+                await _currentSpecial.Start();
+                if(_currentState is not IDeathState)
                 {
-                    _currentDefault.Stop();
-                    _currentState = _currentSpecial = _specialStates.OfType<T>().Single();
-                    await _currentSpecial.Start();
-                    if (_currentState is not IDeathState)
-                    {
-                        _currentState = _currentDefault;
-                        _currentDefault.Start();
-                    }
+                    _currentState = _currentDefault;
+                    _currentDefault.Start();
+                }
+            }
+        }
+
+        public async void RollState()
+        {
+            if (_currentState is IDeathState)
+                return;
+            if (_currentState is not ISpecialState)
+            {
+                _currentState.Stop();
+                _currentState = _currentSpecial = _roll;
+                await _currentSpecial.Start();
+                if (_currentState is not IDeathState)
+                {
+                    _currentState = _currentDefault;
+                    _currentDefault.Start();
                 }
             }
         }
 
         public void DeathState()
         {
-            if (_currentState is not IDeathState)
-            {
-                _currentDefault.Stop();
-                _currentSpecial.Stop();
-                _currentState = _deathState;
-                _deathState.Start();
-            }
+            _currentState.Stop();
+            _currentState = _death;
+            _death.Start();
         }
     }
 }

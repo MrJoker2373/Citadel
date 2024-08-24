@@ -7,12 +7,7 @@
         private UnitRagdoll _ragdoll;
         private UnitController _controller;
         private int _delay;
-        private bool _isActive;
-
-        public bool IsActive()
-        {
-            return _isActive;
-        }
+        private bool _isDead;
 
         public void Compose(
             UnitRagdoll ragdoll,
@@ -26,10 +21,18 @@
 
         public async void Start()
         {
-            _isActive = true;
-            _ragdoll.Enable();
-            await Task.Delay(_delay);
-            _controller.Dispose();
+            if(_isDead == false)
+            {
+                _isDead = true;
+                _ragdoll.Enable();
+                await Task.Delay(_delay);
+                _controller.Dispose();
+            }
+        }
+
+        public void Stop()
+        {
+            _isDead = false;
         }
     }
 }

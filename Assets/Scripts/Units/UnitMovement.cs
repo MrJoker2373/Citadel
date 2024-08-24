@@ -1,48 +1,72 @@
 ﻿namespace Citadel.Units
 {
-    using UnityEngine;
-
     public class UnitMovement : IDefaultState
     {
-        private const string MOVE_ANIMATION = "Move";
+        private const string DEFAULT_KEY = "Default Movement";
+        private const string CROUCH_KEY = "Crouch Movement";
+        private UnitPhysics _physics;
         private UnitAnimation _animation;
-        private Rigidbody _rigidbody;
-        private float _speed;
-        private Vector3 _direction;
-        private bool _isActive;
+        private float _defaultSpeed;
+        private float _crouchSpeed;
+        private bool _isMovement;
+        private bool _isCrouch;
 
-        public bool IsActive()
+        public void Compose(
+            UnitPhysics physics,
+            UnitAnimation animation,
+            float defaultSpeed, 
+            float crawlSpeed)
         {
-            return _isActive;
-        }
-
-        public void SetDirection(Vector3 direction)
-        {
-            _direction = direction.normalized;
-        }
-
-        public void Compose(UnitAnimation animation, Rigidbody rigidbody, float speed)
-        {
+            _physics = physics;
             _animation = animation;
-            _rigidbody = rigidbody;
-            _speed = speed;
+            _defaultSpeed = defaultSpeed;
+            _crouchSpeed = crawlSpeed;
         }
 
-        public async void Start()
+        public void Start()
         {
-            _isActive = true;
-            await _animation.Play(MOVE_ANIMATION);
-        }
-
-        public void Update()
-        {
-            if (_isActive == true)
-                _rigidbody.linearVelocity += _speed * _direction;
+            if (_isMovement == false)
+            {
+                _isMovement = true;
+                _physics.Activate();
+                if (_isCrouch == false)
+                {
+                    _animation.Play(DEFAULT_KEY);
+                    _physics.SetSpeed(_defaultSpeed);
+                }
+                else
+                {
+                    _animation.Play(CROUCH_KEY);
+                    _physics.SetSpeed(_crouchSpeed);
+                }
+            }
         }
 
         public void Stop()
         {
-            _isActive = false;
+            _isMovement = false;
+            _physics.Stop();
+            _animation.Stop();
+        }
+
+        public void Default()
+        {
+            _isCrouch = false;
+            if (_isMovement == true)
+            {
+                _physics.SetSpeed(_defaultSpeed);
+                _animation.Play(DEFAULT_KEY);
+            }
+        }
+
+        public void Crouch()
+        {
+            _isCrouch = true;
+            if (_isMovement == true)
+            {
+                _physics.SetSpeed(_crouchSpeed);
+                _animation.Play(CROUCH_KEY);
+            }
         }
     }
 }

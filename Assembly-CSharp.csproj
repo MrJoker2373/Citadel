@@ -74,6 +74,7 @@
     <Compile Include="Assets\Scripts\OrientationController.cs" />
     <Compile Include="Assets\Scripts\Units\ISpecialState.cs" />
     <Compile Include="Assets\Scripts\Units\UnitDeath.cs" />
+    <Compile Include="Assets\Scripts\Units\UnitPhysics.cs" />
     <Compile Include="Assets\Scripts\Units\IItemController.cs" />
     <Compile Include="Assets\Scripts\ItemController.cs" />
     <Compile Include="Assets\Scripts\Units\UnitMovement.cs" />

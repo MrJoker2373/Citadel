@@ -6,14 +6,14 @@
     {
         private const float ROTATION_THRESHOLD = 0.65f;
         private UnitMachine _machine;
-        private UnitMovement _movement;
+        private UnitPhysics _physics;
         private Rigidbody _rigidbody;
         private Vector3 _direction;
 
-        public void Compose(UnitMachine machine, UnitMovement movement, Rigidbody rigidbody)
+        public void Compose(UnitMachine machine, UnitPhysics physics, Rigidbody rigidbody)
         {
             _machine = machine;
-            _movement = movement;
+            _physics = physics;
             _rigidbody = rigidbody;
         }
 
@@ -21,13 +21,13 @@
         {
             if (direction == Vector3.zero)
                 return;
-            _direction = direction;
-            _movement.SetDirection(direction);
+            _direction = direction.normalized;
+            _physics.SetDirection(_direction);
         }
 
         public void Update()
         {
-            if (_machine.GetCurrentState() is IDefaultState)
+            if(_machine.GetCurrentState() is IDefaultState)
             {
                 var current = _rigidbody.rotation;
                 var target = Quaternion.LookRotation(_direction);

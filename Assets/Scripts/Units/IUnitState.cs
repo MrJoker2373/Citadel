@@ -2,6 +2,6 @@
 {
     public interface IUnitState
     {
-        public bool IsActive();
+        public void Stop();
     }
 }

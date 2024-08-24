@@ -2,29 +2,47 @@
 {
     public class UnitIdle : IDefaultState
     {
-        private const string IDLE_ANIMATION = "Idle";
+        private const string DEFAULT_KEY = "Default Idle";
+        private const string CROUCH_KEY = "Crouch Idle";
         private UnitAnimation _animation;
-        private bool _isActive;
-
-        public bool IsActive()
-        {
-            return _isActive;
-        }
+        private bool _isIdle;
+        private bool _isCrouch;
 
         public void Compose(UnitAnimation animation)
         {
             _animation = animation;
         }
 
-        public async void Start()
+        public void Start()
         {
-            _isActive = true;
-            await _animation.Play(IDLE_ANIMATION);
+            if (_isIdle == false)
+            {
+                _isIdle = true;
+                if (_isCrouch == false)
+                    _animation.Play(DEFAULT_KEY);
+                else
+                    _animation.Play(CROUCH_KEY);
+            }
         }
 
         public void Stop()
         {
-            _isActive = false;
+            _isIdle = false;
+            _animation.Stop();
+        }
+
+        public void Default()
+        {
+            _isCrouch = false;
+            if (_isIdle == true)
+                _animation.Play(DEFAULT_KEY);
+        }
+
+        public void Crouch()
+        {
+            _isCrouch = true;
+            if (_isIdle == true)
+                _animation.Play(CROUCH_KEY);
         }
     }
 }

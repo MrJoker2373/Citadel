@@ -23,8 +23,10 @@
         [SerializeField] private float _stopRange;
 
         private UnitAnimation _animation;
+        private UnitPhysics _physics;
         private UnitRagdoll _ragdoll;
         private UnitRotation _rotation;
+
         private UnitMachine _machine;
         private UnitIdle _idle;
         private UnitMovement _movement;
@@ -41,8 +43,8 @@
 
         private void FixedUpdate()
         {
+            _physics.Update();
             _rotation.Update();
-            _movement.Update();
         }
 
         private void LateUpdate()
@@ -70,6 +72,7 @@
         private void CreateObjects()
         {
             _animation = new();
+            _physics = new();
             _ragdoll = new();
             _rotation = new();
             _machine = new();
@@ -82,6 +85,7 @@
             _container = new List<object>()
             {
                 _animation,
+                _physics,
                 _ragdoll,
                 _rotation,
                 _machine,
@@ -98,12 +102,11 @@
         {
             _animation.Compose(_animator);
             _ragdoll.Compose(_animation, _rigidbody, _collider, _ragdollRigidbodies, _ragdollColliders);
-            _rotation.Compose(_machine, _movement, _rigidbody);
-            var defaultStates = new IDefaultState[] { _idle, _movement };
-            var specialStates = new ISpecialState[] { _attack };
-            _machine.Compose(defaultStates, specialStates, _death);
+            _physics.Compose(_rigidbody);
+            _rotation.Compose(_machine, _physics, _rigidbody);
+            _machine.Compose(_idle, _movement, _attack, null, _death);
             _idle.Compose(_animation);
-            _movement.Compose(_animation, _rigidbody, _speedAmount);
+            _movement.Compose(_physics, _animation, _speedAmount, 0);
             _attack.Compose(_animation, _health, _damageAmount);
             _health.Compose(_machine, _healthAmount);
             _death.Compose(_ragdoll, this, _deathDelay);
