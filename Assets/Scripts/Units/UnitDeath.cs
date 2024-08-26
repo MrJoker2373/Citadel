@@ -4,7 +4,7 @@
 
     public class UnitDeath : IDeathState
     {
-        private const float PUSH_FORCE = 50f;
+        private const float PUSH_FORCE = 35f;
         private UnitRagdoll _ragdoll;
         private UnitController _controller;
         private UnitPhysics _physics;

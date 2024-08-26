@@ -49,11 +49,6 @@
             _rotation.Update();
         }
 
-        private void LateUpdate()
-        {
-            _animation.Update();
-        }
-
         public override void Compose()
         {
             CreateObjects();

@@ -5,12 +5,12 @@
 
     public class UnitAnimation
     {
+        private const float CROSS_FADE = 0.1f;
+        private const int THREAD_DELAY = 100;
         private Animator _animator;
-        private string _animation;
-        private bool _isPlay;
-        private bool _isStart;
-        private bool _isStop;
         private bool _isActive;
+        private bool _isPlay;
+        private bool _isStop;
 
         public void Compose(Animator animator)
         {
@@ -19,13 +19,13 @@
 
         public void Enable()
         {
-            _isActive = false;
+            _isActive = true;
             _animator.enabled = true;
         }
 
         public void Disable()
         {
-            _isActive = true;
+            _isActive = false;
             _animator.enabled = false;
             Stop();
         }
@@ -33,23 +33,12 @@
         public async Task Play(string animation)
         {
             if (_isActive == false)
-            {
-                _animation = animation;
-                await WaitForStop();
-                _isPlay = true;
-                await WaitForStart();
-                await WaitForEnd();
-                _isPlay = false;
-            }
-        }
-
-        public void Update()
-        {
-            if (_isStart == true)
-            {
-                _animator.Play(_animation);
-                _isStart = false;
-            }
+                return;
+            _isStop = true;
+            await WaitForStop();
+            _isPlay = true;
+            await WaitForPlay(animation);
+            _isPlay = false;
         }
 
         public void Stop()
@@ -57,39 +46,22 @@
             _isStop = true;
         }
 
-        private async Task WaitForStop()
+        private async Task WaitForPlay(string animation)
         {
-            if (_isPlay == false)
-                _isStop = false;
-            else
-            {
-                Stop();
-                while (_isPlay == true)
-                    await Task.Yield();
-                _isStop = false;
-            }
-        }
-
-        private async Task WaitForStart()
-        {
-            _isStart = true;
-            while (_isStop == false && _isStart == true)
-                await Task.Yield();
-            if (_isStop == false)
-                await Task.Delay((int)(Time.deltaTime * 1000 + 5));
-        }
-
-        private async Task WaitForEnd()
-        {
+            _animator.CrossFadeInFixedTime(animation, CROSS_FADE);
+            await Task.Delay(THREAD_DELAY);
             if (_animator.GetCurrentAnimatorStateInfo(0).loop == false)
             {
-                float time = 0;
-                while (_isStop == false && time < 0.99f)
-                {
-                    time = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+                while (_isStop == false && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.99f)
                     await Task.Yield();
-                }
             }
+        }
+
+        private async Task WaitForStop()
+        {
+            while (_isPlay == true)
+                await Task.Yield();
+            _isStop = false;
         }
     }
 }

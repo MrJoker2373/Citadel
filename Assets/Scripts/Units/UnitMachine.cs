@@ -58,6 +58,8 @@
         {
             if (_currentState is IDeathState)
                 return;
+            if (_currentDefault is UnitIdle)
+                return;
             _currentDefault = _idle;
             if (_currentState is IDefaultState)
             {
@@ -70,6 +72,8 @@
         public void MovementState()
         {
             if (_currentState is IDeathState)
+                return;
+            if (_currentDefault is UnitMovement)
                 return;
             _currentDefault = _movement;
             if (_currentState is IDefaultState)

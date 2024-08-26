@@ -23,6 +23,12 @@
                 CollectItem();
         }
 
+        public void ResetItem(IItemController item)
+        {
+            if (item == _item)
+                _item = null;
+        }
+
         public void CollectItem()
         {
             if (_item == null)

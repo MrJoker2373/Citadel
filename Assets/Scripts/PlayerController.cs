@@ -53,15 +53,16 @@
             _rotation.Update();
         }
 
-        private void LateUpdate()
-        {
-            _animation.Update();
-        }
-
         private void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent<ItemController>(out var item))
                 _inventory.SetItem(item);
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.TryGetComponent<ItemController>(out var item))
+                _inventory.ResetItem(item);
         }
 
         public override void Compose()

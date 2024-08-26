@@ -34,7 +34,7 @@
                     _physics.SetDirection(_direction);
                 }
                 var current = _rigidbody.rotation;
-                var target = Quaternion.LookRotation(_rawDirection);
+                var target = Quaternion.LookRotation(_direction);
                 _rigidbody.rotation = Quaternion.Lerp(current, target, ROTATION_THRESHOLD);
             }
         }
