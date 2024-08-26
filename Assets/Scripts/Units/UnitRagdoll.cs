@@ -5,30 +5,40 @@
     public class UnitRagdoll
     {
         private UnitAnimation _animation;
-        private Rigidbody _rigidbody;
-        private Collider _collider;
+        private Rigidbody _mainRigidbody;
+        private Collider _mainCollider;
+        private Rigidbody _rootRigidbody;
+        private Collider _rootCollider;
         private Rigidbody[] _ragdollRigidbodies;
         private Collider[] _ragdollColliders;
+        private bool _isRagdoll;
 
         public void Compose(
             UnitAnimation animation,
-            Rigidbody rigidbody,
-            Collider collider,
+            Rigidbody mainRigidbody,
+            Collider mainCollider,
+            Rigidbody rootRigidbody,
+            Collider rootCollider,
             Rigidbody[] ragdollRigidbodies,
             Collider[] ragdollColliders)
         {
             _animation = animation;
-            _rigidbody = rigidbody;
-            _collider = collider;
+            _mainRigidbody = mainRigidbody;
+            _mainCollider = mainCollider;
+            _rootRigidbody = rootRigidbody;
+            _rootCollider = rootCollider;
             _ragdollRigidbodies = ragdollRigidbodies;
             _ragdollColliders = ragdollColliders;
         }
 
         public void Enable()
         {
+            _isRagdoll = true;
             _animation.Disable();
-            _rigidbody.isKinematic = true;
-            _collider.enabled = false;
+            _mainRigidbody.isKinematic = true;
+            _mainCollider.enabled = false;
+            _rootRigidbody.isKinematic = false;
+            _rootCollider.enabled = true;
             foreach (var rigidbody in _ragdollRigidbodies)
                 rigidbody.isKinematic = false;
             foreach (var collider in _ragdollColliders)
@@ -37,13 +47,26 @@
 
         public void Disable()
         {
+            _isRagdoll = false;
             _animation.Enable();
-            _rigidbody.isKinematic = false;
-            _collider.enabled = true;
+            _mainRigidbody.isKinematic = false;
+            _mainCollider.enabled = true;
+            _rootRigidbody.isKinematic = true;
+            _rootCollider.enabled = false;
             foreach (var rigidbody in _ragdollRigidbodies)
                 rigidbody.isKinematic = true;
             foreach (var collider in _ragdollColliders)
                 collider.enabled = false;
+        }
+
+        public void Push(UnitPhysics physics, float force)
+        {
+            if(_isRagdoll == true)
+            {
+                var direction = physics.GetDirection();
+                direction.y = 0.5f;
+                _rootRigidbody.linearVelocity += direction * force;
+            }
         }
     }
 }

@@ -11,6 +11,7 @@
         private const float DAMAGE_MULTIPLIER = 1.1f;
         private const int MAX_COMBO = 2;
         private UnitAnimation _animation;
+        private UnitPhysics _physics;
         private UnitHealth _health;
         private int _defaultDamage;
         private int _currentDamage;
@@ -19,9 +20,10 @@
         private bool _isAttack;
         private bool _isCombo;
 
-        public void Compose(UnitAnimation animation, UnitHealth health, int damage)
+        public void Compose(UnitAnimation animation, UnitPhysics physics, UnitHealth health, int damage)
         {
             _animation = animation;
+            _physics = physics;
             _health = health;
             _defaultDamage = _currentDamage = damage;
             _hits = new();
@@ -67,7 +69,7 @@
             if (_health != hit && _hits.Contains(hit) == false)
             {
                 _hits.Add(hit);
-                hit.RemoveHealth(_currentDamage);
+                hit.RemoveHealth(_physics, _currentDamage);
             }
         }
 

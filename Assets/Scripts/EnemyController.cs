@@ -8,8 +8,10 @@
     public class EnemyController : UnitController
     {
         [SerializeField] private Animator _animator;
-        [SerializeField] private Rigidbody _rigidbody;
-        [SerializeField] private Collider _collider;
+        [SerializeField] private Rigidbody _mainRigidbody;
+        [SerializeField] private Collider _mainCollider;
+        [SerializeField] private Rigidbody _rootRigidbody;
+        [SerializeField] private Collider _rootCollider;
         [SerializeField] private Rigidbody[] _ragdollRigidbodies;
         [SerializeField] private Collider[] _ragdollColliders;
         [SerializeField] private OrientationController _orientation;
@@ -101,13 +103,13 @@
         private void ComposeObjects()
         {
             _animation.Compose(_animator);
-            _ragdoll.Compose(_animation, _rigidbody, _collider, _ragdollRigidbodies, _ragdollColliders);
-            _physics.Compose(_rigidbody);
-            _rotation.Compose(_machine, _physics, _rigidbody);
+            _ragdoll.Compose(_animation, _mainRigidbody, _mainCollider, _rootRigidbody, _rootCollider, _ragdollRigidbodies, _ragdollColliders);
+            _physics.Compose(_mainRigidbody);
+            _rotation.Compose(_machine, _physics, _mainRigidbody);
             _machine.Compose(_idle, _movement, _attack, null, _death);
             _idle.Compose(_animation);
             _movement.Compose(_physics, _animation, _speedAmount, 0);
-            _attack.Compose(_animation, _health, _damageAmount);
+            _attack.Compose(_animation, _physics, _health, _damageAmount);
             _health.Compose(_machine, _healthAmount);
             _death.Compose(_ragdoll, this, _deathDelay);
             _agent.Compose(this, _machine, _rotation, _chaseRange, _stopRange);

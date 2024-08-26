@@ -1,5 +1,7 @@
 ﻿namespace Citadel.Units
 {
+    using UnityEngine;
+
     public class UnitHealth
     {
         private UnitMachine _machine;
@@ -11,7 +13,7 @@
             _health = health;
         }
 
-        public void RemoveHealth(int health)
+        public void RemoveHealth(UnitPhysics physics, int health)
         {
             if (_health > 0)
             {
@@ -20,6 +22,7 @@
                 else
                 {
                     _health = 0;
+                    _machine.GetState<UnitDeath>().SetPhysics(physics);
                     _machine.DeathState();
                 }
             }

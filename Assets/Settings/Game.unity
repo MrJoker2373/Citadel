@@ -3112,15 +3112,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 621130703}
-  _rigidbody: {fileID: 621130698}
-  _collider: {fileID: 621130704}
+  _mainRigidbody: {fileID: 621130698}
+  _mainCollider: {fileID: 621130704}
+  _rootRigidbody: {fileID: 8515622518455824991}
+  _rootCollider: {fileID: 8515622518455824993}
   _ragdollRigidbodies:
   - {fileID: 3941066203306935273}
   - {fileID: 2044628881314602093}
   - {fileID: 4136372329229375145}
   - {fileID: 4295968694346597447}
   - {fileID: 9164324299644746260}
-  - {fileID: 8515622518455824991}
   - {fileID: 7549138375976932831}
   - {fileID: 6894220573731595200}
   - {fileID: 7992989443199248443}
@@ -3132,7 +3133,6 @@ MonoBehaviour:
   - {fileID: 4136372329229375146}
   - {fileID: 4295968694346597449}
   - {fileID: 9164324299644746261}
-  - {fileID: 8515622518455824993}
   - {fileID: 7549138375976932833}
   - {fileID: 6894220573731595201}
   - {fileID: 7992989443199248444}
@@ -9646,15 +9646,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 2033314671}
-  _rigidbody: {fileID: 2033314672}
-  _collider: {fileID: 2033314673}
+  _mainRigidbody: {fileID: 2033314672}
+  _mainCollider: {fileID: 2033314673}
+  _rootRigidbody: {fileID: 1552062860}
+  _rootCollider: {fileID: 1552062859}
   _ragdollRigidbodies:
   - {fileID: 1030329086}
   - {fileID: 223368938}
   - {fileID: 1801269153}
   - {fileID: 1312416502}
   - {fileID: 1584692258}
-  - {fileID: 1552062860}
   - {fileID: 2103757248}
   - {fileID: 10569867}
   - {fileID: 362187065}
@@ -9666,7 +9667,6 @@ MonoBehaviour:
   - {fileID: 1801269152}
   - {fileID: 1312416501}
   - {fileID: 1584692257}
-  - {fileID: 1552062859}
   - {fileID: 2103757247}
   - {fileID: 10569866}
   - {fileID: 362187064}

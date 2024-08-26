@@ -10,8 +10,10 @@
     public class PlayerController : UnitController
     {
         [SerializeField] private Animator _animator;
-        [SerializeField] private Rigidbody _rigidbody;
-        [SerializeField] private Collider _collider;
+        [SerializeField] private Rigidbody _mainRigidbody;
+        [SerializeField] private Collider _mainCollider;
+        [SerializeField] private Rigidbody _rootRigidbody;
+        [SerializeField] private Collider _rootCollider;
         [SerializeField] private Rigidbody[] _ragdollRigidbodies;
         [SerializeField] private Collider[] _ragdollColliders;
         [SerializeField] private TextMeshProUGUI _coinsLabel;
@@ -114,13 +116,13 @@
         private void ComposeObjects()
         {
             _animation.Compose(_animator);
-            _physics.Compose(_rigidbody);
-            _ragdoll.Compose(_animation, _rigidbody, _collider, _ragdollRigidbodies, _ragdollColliders);
-            _rotation.Compose(_machine, _physics, _rigidbody);
+            _physics.Compose(_mainRigidbody);
+            _ragdoll.Compose(_animation, _mainRigidbody, _mainCollider, _rootRigidbody, _rootCollider, _ragdollRigidbodies, _ragdollColliders);
+            _rotation.Compose(_machine, _physics, _mainRigidbody);
             _machine.Compose(_idle, _movement, _attack, _roll, _death);
             _idle.Compose(_animation);
             _movement.Compose(_physics, _animation, _defaultSpeedAmount, _crouchSpeedAmount);
-            _attack.Compose(_animation, _health, _damageAmount);
+            _attack.Compose(_animation, _physics, _health, _damageAmount);
             _health.Compose(_machine, _healthAmount);
             _death.Compose(_ragdoll, this, _deathDelay);
             _roll.Compose(_animation);

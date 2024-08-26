@@ -9,6 +9,16 @@
         private float _speed;
         private bool _isActive;
 
+        public Vector3 GetPosition()
+        {
+            return _rigidbody.position;
+        }
+
+        public Vector3 GetDirection()
+        {
+            return _direction;
+        }
+
         public void SetDirection(Vector3 direction)
         {
             _direction = direction;

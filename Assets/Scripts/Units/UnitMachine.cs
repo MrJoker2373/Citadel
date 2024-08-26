@@ -1,5 +1,8 @@
 ﻿namespace Citadel.Units
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class UnitMachine
     {
         private UnitIdle _idle;
@@ -10,6 +13,12 @@
         private IUnitState _currentState;
         private IDefaultState _currentDefault;
         private ISpecialState _currentSpecial;
+        private List<IUnitState> _allStates;
+
+        public T GetState<T>() where T : IUnitState
+        {
+            return _allStates.OfType<T>().Single();
+        }
 
         public IUnitState GetCurrentState()
         {
@@ -17,10 +26,10 @@
         }
 
         public void Compose(
-            UnitIdle idle, 
-            UnitMovement movement, 
+            UnitIdle idle,
+            UnitMovement movement,
             UnitAttack attack,
-            UnitRoll roll, 
+            UnitRoll roll,
             UnitDeath death)
         {
             _idle = idle;
@@ -28,6 +37,14 @@
             _attack = attack;
             _roll = roll;
             _death = death;
+            _allStates = new List<IUnitState>()
+            {
+                _idle,
+                _movement,
+                _attack,
+                _roll,
+                _death
+            };
         }
 
         public void StartState()
@@ -90,7 +107,7 @@
                 _currentState.Stop();
                 _currentState = _currentSpecial = _attack;
                 await _currentSpecial.Start();
-                if(_currentState is not IDeathState)
+                if (_currentState is not IDeathState)
                 {
                     _currentState = _currentDefault;
                     _currentDefault.Start();
