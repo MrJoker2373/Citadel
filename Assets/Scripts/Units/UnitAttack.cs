@@ -8,10 +8,12 @@
         private const string ATTACK1_KEY = "Attack 1";
         private const string ATTACK2_KEY = "Attack 2";
         private const string ATTACK3_KEY = "Attack 3";
+        private const float DAMAGE_MULTIPLIER = 1.1f;
         private const int MAX_COMBO = 2;
         private UnitAnimation _animation;
         private UnitHealth _health;
-        private int _damage;
+        private int _defaultDamage;
+        private int _currentDamage;
         private List<UnitHealth> _hits;
         private int _currentCombo;
         private bool _isAttack;
@@ -21,7 +23,7 @@
         {
             _animation = animation;
             _health = health;
-            _damage = damage;
+            _defaultDamage = _currentDamage = damage;
             _hits = new();
         }
 
@@ -32,13 +34,10 @@
                 _isAttack = true;
                 await SetAnimation();
                 if (_isCombo == false)
-                {
-                    _currentCombo = 0;
                     Stop();
-                }
                 else
                 {
-                    Stop();
+                    ResetAttack();
                     await Start();
                 }
             }
@@ -48,15 +47,16 @@
                 {
                     _isCombo = true;
                     _currentCombo++;
+                    _currentDamage = (int)(_currentDamage * DAMAGE_MULTIPLIER);
                 }
             }
         }
 
         public void Stop()
         {
-            _isAttack = false;
-            _isCombo = false;
-            _hits.Clear();
+            ResetAttack();
+            _currentCombo = 0;
+            _currentDamage = _defaultDamage;
             _animation.Stop();
         }
 
@@ -67,8 +67,15 @@
             if (_health != hit && _hits.Contains(hit) == false)
             {
                 _hits.Add(hit);
-                hit.RemoveHealth(_damage);
+                hit.RemoveHealth(_currentDamage);
             }
+        }
+
+        private void ResetAttack()
+        {
+            _isAttack = false;
+            _isCombo = false;
+            _hits.Clear();
         }
 
         private async Task SetAnimation()
