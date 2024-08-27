@@ -5,28 +5,35 @@
 
     public class CameraController : MonoBehaviour
     {
+        private const float LERP_THRESHOLD = 0.5f;
         [SerializeField] private InputAction _mousePosition;
         [SerializeField] private RectTransform _left;
         [SerializeField] private RectTransform _right;
         [SerializeField] private RectTransform _down;
         [SerializeField] private RectTransform _up;
-        [SerializeField] private float _speed;
+        [SerializeField] private Transform _target;
+        [SerializeField] private float _offsetAmount;
         [SerializeField] private OrientationController _orientation;
-        private Vector3 _direction;
+        private Plane _plane;
+        private Vector3 _offset;
 
-        private void LateUpdate() => UpdatePosition();
+        private void LateUpdate()
+        {
+            var point = transform.position + _offset * _offsetAmount;
+            var target = _plane.ClosestPointOnPlane(_target.position);
+            transform.position = Vector3.Lerp(point, target, LERP_THRESHOLD);
+        }
 
-        public void Compose() => Enable();
+        public void Compose()
+        {
+            _plane = new Plane(transform.forward, transform.position);
+            Enable();
+        }
 
         public void Enable()
         {
             _mousePosition.Enable();
             _mousePosition.performed += MousePosition;
-        }
-
-        public void UpdatePosition()
-        {
-            transform.position += _speed * Time.deltaTime * _direction;
         }
 
         public void Disable()
@@ -47,7 +54,7 @@
                 direction += _orientation.GetDown();
             else if (_up.rect.Contains(_up.InverseTransformPoint(position)))
                 direction += _orientation.GetUp();
-            _direction = direction.normalized;
+            _offset = direction.normalized;
         }
     }
 }
