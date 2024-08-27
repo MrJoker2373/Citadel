@@ -15,20 +15,16 @@
 
         public void Start()
         {
-            if (_isIdle == false)
-            {
-                _isIdle = true;
-                if (_isCrouch == false)
-                    _animation.Play(DEFAULT_KEY);
-                else
-                    _animation.Play(CROUCH_KEY);
-            }
+            _isIdle = true;
+            if (_isCrouch == false)
+                _animation.Play(DEFAULT_KEY);
+            else
+                _animation.Play(CROUCH_KEY);
         }
 
         public void Stop()
         {
             _isIdle = false;
-            _animation.Stop();
         }
 
         public void Default()

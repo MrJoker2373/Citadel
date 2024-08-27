@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using UnityEngine;
 
     public class UnitMachine
     {
@@ -11,6 +12,7 @@
         private UnitRoll _roll;
         private UnitDeath _death;
         private IUnitState _currentState;
+        private IDefaultState _lastDefault;
         private IDefaultState _currentDefault;
         private ISpecialState _currentSpecial;
         private List<IUnitState> _allStates;
@@ -49,7 +51,7 @@
 
         public void StartState()
         {
-            _currentState = _currentDefault = _idle;
+            _currentState = _currentDefault = _lastDefault = _idle;
             _currentSpecial = _attack;
             _currentDefault.Start();
         }
@@ -58,13 +60,13 @@
         {
             if (_currentState is IDeathState)
                 return;
-            if (_currentDefault is UnitIdle)
+            if (_lastDefault is UnitIdle)
                 return;
-            _currentDefault = _idle;
+            _lastDefault = _idle;
             if (_currentState is IDefaultState)
             {
-                _currentState.Stop();
-                _currentState = _currentDefault;
+                _currentDefault.Stop();
+                _currentState = _currentDefault = _lastDefault;
                 _currentDefault.Start();
             }
         }
@@ -73,13 +75,13 @@
         {
             if (_currentState is IDeathState)
                 return;
-            if (_currentDefault is UnitMovement)
+            if (_lastDefault is UnitMovement)
                 return;
-            _currentDefault = _movement;
+            _lastDefault = _movement;
             if (_currentState is IDefaultState)
             {
-                _currentState.Stop();
-                _currentState = _currentDefault;
+                _currentDefault.Stop();
+                _currentState = _currentDefault = _lastDefault;
                 _currentDefault.Start();
             }
         }
@@ -105,15 +107,15 @@
             if (_currentState is IDeathState)
                 return;
             if (_currentState is UnitAttack)
-                _currentSpecial.Start();
-            else if (_currentState is not ISpecialState)
+                _currentSpecial.Run();
+            else if (_currentState is IDefaultState state)
             {
-                _currentState.Stop();
+                state.Stop();
                 _currentState = _currentSpecial = _attack;
-                await _currentSpecial.Start();
+                await _currentSpecial.Run();
                 if (_currentState is not IDeathState)
                 {
-                    _currentState = _currentDefault;
+                    _currentState = _currentDefault = _lastDefault;
                     _currentDefault.Start();
                 }
             }
@@ -123,14 +125,14 @@
         {
             if (_currentState is IDeathState)
                 return;
-            if (_currentState is not ISpecialState)
+            if (_currentState is IDefaultState state)
             {
-                _currentState.Stop();
+                state.Stop();
                 _currentState = _currentSpecial = _roll;
-                await _currentSpecial.Start();
+                await _currentSpecial.Run();
                 if (_currentState is not IDeathState)
                 {
-                    _currentState = _currentDefault;
+                    _currentState = _currentDefault = _lastDefault;
                     _currentDefault.Start();
                 }
             }
@@ -138,9 +140,10 @@
 
         public void DeathState()
         {
-            _currentState.Stop();
+            if (_currentState is IDefaultState state)
+                state.Stop();
             _currentState = _death;
-            _death.Start();
+            _death.Run();
         }
     }
 }

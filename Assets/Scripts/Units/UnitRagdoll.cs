@@ -59,14 +59,10 @@
                 collider.enabled = false;
         }
 
-        public void Push(UnitPhysics physics, float force)
+        public void Push(Vector3 force)
         {
             if(_isRagdoll == true)
-            {
-                var direction = physics.GetDirection();
-                direction.y = 0.5f;
-                _rootRigidbody.linearVelocity += direction * force;
-            }
+                _rootRigidbody.linearVelocity += force;
         }
     }
 }

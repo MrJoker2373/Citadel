@@ -2,6 +2,6 @@
 {
     public interface IDeathState : IUnitState
     {
-        public void Start();
+        public void Run();
     }
 }

@@ -46,7 +46,6 @@
         {
             _isMovement = false;
             _physics.Stop();
-            _animation.Stop();
         }
 
         public void Default()

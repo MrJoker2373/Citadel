@@ -4,7 +4,7 @@
 
     public class UnitRotation
     {
-        private const float ROTATION_THRESHOLD = 0.65f;
+        private const float ROTATION_THRESHOLD = 0.25f;
         private UnitMachine _machine;
         private UnitPhysics _physics;
         private Rigidbody _rigidbody;

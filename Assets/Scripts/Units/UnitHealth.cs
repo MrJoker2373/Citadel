@@ -13,7 +13,7 @@
             _health = health;
         }
 
-        public void RemoveHealth(UnitPhysics physics, int health)
+        public void RemoveHealth(int health, Vector3 knockback)
         {
             if (_health > 0)
             {
@@ -22,7 +22,7 @@
                 else
                 {
                     _health = 0;
-                    _machine.GetState<UnitDeath>().SetPhysics(physics);
+                    _machine.GetState<UnitDeath>().SetKnockback(knockback);
                     _machine.DeathState();
                 }
             }

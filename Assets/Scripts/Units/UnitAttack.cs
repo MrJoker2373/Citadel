@@ -29,18 +29,24 @@
             _hits = new();
         }
 
-        public async Task Start()
+        public async Task Run()
         {
             if (_isAttack == false)
             {
                 _isAttack = true;
+                _hits.Clear();
                 await SetAnimation();
+                _isAttack = false;
                 if (_isCombo == false)
-                    Stop();
+                {
+                    _isCombo = false;
+                    _currentCombo = 0;
+                    _currentDamage = _defaultDamage;
+                }
                 else
                 {
-                    ResetAttack();
-                    await Start();
+                    _isCombo = false;
+                    await Run();
                 }
             }
             else if (_isCombo == false)
@@ -54,14 +60,6 @@
             }
         }
 
-        public void Stop()
-        {
-            ResetAttack();
-            _currentCombo = 0;
-            _currentDamage = _defaultDamage;
-            _animation.Stop();
-        }
-
         public void SetHit(UnitHealth hit)
         {
             if (_isAttack == false)
@@ -69,15 +67,9 @@
             if (_health != hit && _hits.Contains(hit) == false)
             {
                 _hits.Add(hit);
-                hit.RemoveHealth(_physics, _currentDamage);
+                var knockback = _physics.GetDirection() * _currentDamage;
+                hit.RemoveHealth(_currentDamage, knockback);
             }
-        }
-
-        private void ResetAttack()
-        {
-            _isAttack = false;
-            _isCombo = false;
-            _hits.Clear();
         }
 
         private async Task SetAnimation()
