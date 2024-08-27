@@ -12,16 +12,18 @@
         [SerializeField] private RectTransform _down;
         [SerializeField] private RectTransform _up;
         [SerializeField] private Transform _target;
-        [SerializeField] private float _offsetAmount;
-        [SerializeField] private OrientationController _orientation;
+        [SerializeField] private float _range;
         private Plane _plane;
         private Vector3 _offset;
 
         private void LateUpdate()
         {
-            var point = transform.position + _offset * _offsetAmount;
-            var target = _plane.ClosestPointOnPlane(_target.position);
-            transform.position = Vector3.Lerp(point, target, LERP_THRESHOLD);
+            if(_target != null)
+            {
+                var point = transform.position + _offset * _range;
+                var target = _plane.ClosestPointOnPlane(_target.position);
+                transform.position = Vector3.Lerp(point, target, LERP_THRESHOLD);
+            }
         }
 
         public void Compose()
@@ -44,17 +46,17 @@
 
         private void MousePosition(InputAction.CallbackContext context)
         {
-            var position = context.ReadValue<Vector2>();
-            var direction = Vector3.zero;
-            if (_left.rect.Contains(_left.InverseTransformPoint(position)))
-                direction += _orientation.GetLeft();
-            else if (_right.rect.Contains(_right.InverseTransformPoint(position)))
-                direction += _orientation.GetRight();
-            if (_down.rect.Contains(_down.InverseTransformPoint(position)))
-                direction += _orientation.GetDown();
-            else if (_up.rect.Contains(_up.InverseTransformPoint(position)))
-                direction += _orientation.GetUp();
-            _offset = direction.normalized;
+            var input = context.ReadValue<Vector2>();
+            var offset = Vector3.zero;
+            if (_left.rect.Contains(_left.InverseTransformPoint(input)))
+                offset += -transform.right;
+            else if (_right.rect.Contains(_right.InverseTransformPoint(input)))
+                offset += transform.right;
+            if (_down.rect.Contains(_down.InverseTransformPoint(input)))
+                offset += -transform.up;
+            else if (_up.rect.Contains(_up.InverseTransformPoint(input)))
+                offset += transform.up;
+            _offset = offset.normalized;
         }
     }
 }

@@ -1,7 +1,5 @@
 ﻿namespace Citadel
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using UnityEngine;
     using Citadel.Units;
 
@@ -14,8 +12,8 @@
         [SerializeField] private Collider _rootCollider;
         [SerializeField] private Rigidbody[] _ragdollRigidbodies;
         [SerializeField] private Collider[] _ragdollColliders;
-        [SerializeField] private OrientationController _orientation;
-        [SerializeField] private UnitController _target;
+        [SerializeField] private UnitContainer _container;
+        [SerializeField] private UnitContainer _target;
 
         [SerializeField] private float _speedAmount;
         [SerializeField] private int _damageAmount;
@@ -36,7 +34,6 @@
         private UnitHealth _health;
         private UnitDeath _death;
         private UnitAgent _agent;
-        private List<object> _container;
 
         private void Update()
         {
@@ -61,11 +58,6 @@
             Destroy(gameObject);
         }
 
-        public override T GetUnitComponent<T>()
-        {
-            return _container.OfType<T>().Single();
-        }
-
         private void CreateObjects()
         {
             _animation = new();
@@ -79,20 +71,6 @@
             _health = new();
             _death = new();
             _agent = new();
-            _container = new List<object>()
-            {
-                _animation,
-                _physics,
-                _ragdoll,
-                _rotation,
-                _machine,
-                _idle,
-                _movement,
-                _attack,
-                _health,
-                _death,
-                _agent,
-            };
         }
 
         private void ComposeObjects()
@@ -108,7 +86,7 @@
             _health.Compose(_machine, _healthAmount);
             _death.Compose(_ragdoll, this, _deathDelay);
             _agent.Compose(_machine, _physics, _rotation, _chaseRange, _stopRange);
-            _agent.SetTarget(_target);
+            _container.Compose();
         }
 
         private void ConfigurateObjects()
@@ -116,6 +94,12 @@
             _rotation.Rotate(transform.forward);
             _ragdoll.Disable();
             _machine.StartState();
+            _agent.SetTarget(_target);
+            _container.Add(_animation);
+            _container.Add(_physics);
+            _container.Add(_machine);
+            _container.Add(_health);
+            _container.Add(_attack);
         }
     }
 }

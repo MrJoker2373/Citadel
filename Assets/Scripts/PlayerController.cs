@@ -1,7 +1,5 @@
 ﻿namespace Citadel
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using UnityEngine;
     using UnityEngine.InputSystem;
     using TMPro;
@@ -23,7 +21,7 @@
         [SerializeField] private InputAction _rollInput;
         [SerializeField] private InputAction _attackInput;
         [SerializeField] private InputAction _collectInput;
-        [SerializeField] private OrientationController _orientation;
+        [SerializeField] private UnitContainer _container;
 
         [SerializeField] private float _defaultSpeedAmount;
         [SerializeField] private float _crouchSpeedAmount;
@@ -45,24 +43,11 @@
         private UnitRoll _roll;
         private UnitInventory _inventory;
         private UnitInput _input;
-        private List<object> _container;
 
         private void FixedUpdate()
         {
             _physics.Update();
             _rotation.Update();
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.TryGetComponent<ItemController>(out var item))
-                _inventory.SetItem(item);
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-            if (other.TryGetComponent<ItemController>(out var item))
-                _inventory.ResetItem(item);
         }
 
         public override void Compose()
@@ -75,11 +60,6 @@
         public override void Dispose()
         {
             Destroy(gameObject);
-        }
-
-        public override T GetUnitComponent<T>()
-        {
-            return _container.OfType<T>().Single();
         }
 
         private void CreateObjects()
@@ -97,21 +77,6 @@
             _roll = new();
             _inventory = new();
             _input = new();
-            _container = new List<object>()
-            {
-                _animation,
-                _physics,
-                _ragdoll,
-                _rotation,
-                _machine,
-                _idle,
-                _movement,
-                _attack,
-                _health,
-                _death,
-                _roll,
-                _input,
-            };
         }
 
         private void ComposeObjects()
@@ -128,7 +93,8 @@
             _death.Compose(_ragdoll, this, _deathDelay);
             _roll.Compose(_animation);
             _inventory.Compose(_coinsLabel, _bombsLabel);
-            _input.Compose(_rotationInput, _crouchInput, _rollInput, _attackInput, _collectInput, _orientation, _machine, _rotation, _inventory);
+            _input.Compose(_rotationInput, _crouchInput, _rollInput, _attackInput, _collectInput, transform, _machine, _rotation, _inventory);
+            _container.Compose();
         }
 
         private void ConfigurateObjects()
@@ -137,6 +103,12 @@
             _ragdoll.Disable();
             _machine.StartState();
             _input.Enable();
+            _container.Add(_animation);
+            _container.Add(_physics);
+            _container.Add(_machine);
+            _container.Add(_health);
+            _container.Add(_attack);
+            _container.Add(_inventory);
         }
     }
 }

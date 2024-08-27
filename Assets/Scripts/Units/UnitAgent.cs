@@ -10,7 +10,7 @@
         private UnitRotation _rotation;
         private float _chaseRange;
         private float _stopRange;
-        private UnitController _target;
+        private UnitContainer _target;
         private UnitMachine _targetMachine;
         private UnitPhysics _targetPhysics;
 
@@ -28,11 +28,11 @@
             _stopRange = stopRange;
         }
 
-        public void SetTarget(UnitController target)
+        public void SetTarget(UnitContainer target)
         {
             _target = target;
-            _targetMachine = target.GetUnitComponent<UnitMachine>();
-            _targetPhysics = target.GetUnitComponent<UnitPhysics>();
+            _targetMachine = target.Get<UnitMachine>();
+            _targetPhysics = target.Get<UnitPhysics>();
         }
 
         public void Update()

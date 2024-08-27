@@ -10,7 +10,7 @@
         private InputAction _rollInput;
         private InputAction _attackInput;
         private InputAction _collectInput;
-        private IOrientationController _orientation;
+        private Transform _orientation;
         private UnitMachine _machine;
         private UnitRotation _rotation;
         private UnitInventory _inventory;
@@ -21,7 +21,7 @@
             InputAction rollInput,
             InputAction attackInput,
             InputAction collectInput,
-            IOrientationController orientation,
+            Transform orientation,
             UnitMachine machine,
             UnitRotation rotation,
             UnitInventory inventory)
@@ -68,7 +68,7 @@
         private void Movement(InputAction.CallbackContext context)
         {
             var input = context.ReadValue<Vector2>();
-            var direction = input.x * _orientation.GetRight() + input.y * _orientation.GetForward();
+            var direction = input.x * _orientation.right + input.y * _orientation.forward;
             _rotation.Rotate(direction);
             if (direction == Vector3.zero)
                 _machine.IdleState();
