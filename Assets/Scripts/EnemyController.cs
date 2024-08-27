@@ -107,7 +107,7 @@
             _attack.Compose(_animation, _physics, _health, _damageAmount);
             _health.Compose(_machine, _healthAmount);
             _death.Compose(_ragdoll, this, _deathDelay);
-            _agent.Compose(this, _machine, _rotation, _chaseRange, _stopRange);
+            _agent.Compose(_machine, _physics, _rotation, _chaseRange, _stopRange);
             _agent.SetTarget(_target);
         }
 

@@ -32,7 +32,7 @@
             if (_isActive == false)
                 return;
             _animator.CrossFadeInFixedTime(animation, CROSS_FADE);
-            await Task.Delay((int)(CROSS_FADE * THREAD_DELAY) + 10);
+            await Task.Delay((int)(CROSS_FADE * THREAD_DELAY) + 50);
             if (_animator.GetCurrentAnimatorStateInfo(0).loop == false)
             {
                 while (_isActive == true && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.99f)

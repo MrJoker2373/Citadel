@@ -5,23 +5,24 @@
 
     public class UnitAgent
     {
-        private UnitController _controller;
         private UnitMachine _machine;
+        private UnitPhysics _physics;
         private UnitRotation _rotation;
         private float _chaseRange;
         private float _stopRange;
         private UnitController _target;
         private UnitMachine _targetMachine;
+        private UnitPhysics _targetPhysics;
 
         public void Compose(
-            UnitController controller,
-            UnitMachine state,
+            UnitMachine machine,
+            UnitPhysics physics,
             UnitRotation rotation,
             float chaseRange,
             float stopRange)
         {
-            _controller = controller;
-            _machine = state;
+            _machine = machine;
+            _physics = physics;
             _rotation = rotation;
             _chaseRange = chaseRange;
             _stopRange = stopRange;
@@ -31,6 +32,7 @@
         {
             _target = target;
             _targetMachine = target.GetUnitComponent<UnitMachine>();
+            _targetPhysics = target.GetUnitComponent<UnitPhysics>();
         }
 
         public void Update()
@@ -41,7 +43,7 @@
                 Idle();
             else
             {
-                var distance = Vector3.Distance(_controller.GetPosition(), _target.GetPosition());
+                var distance = Vector3.Distance(_physics.GetPosition(), _targetPhysics.GetPosition());
                 if (distance > _chaseRange)
                     Idle();
                 else if (distance > _stopRange)
@@ -68,7 +70,7 @@
         }
         private void Attack()
         {
-            var direction = _target.GetPosition() - _controller.GetPosition();
+            var direction = _targetPhysics.GetPosition() - _physics.GetPosition();
             _rotation.Rotate(direction);
             _machine.AttackState();
         }
@@ -76,7 +78,7 @@
         {
             var layer = NavMesh.AllAreas;
             var path = new NavMeshPath();
-            NavMesh.CalculatePath(_controller.GetPosition(), _target.GetPosition(), layer, path);
+            NavMesh.CalculatePath(_physics.GetPosition(), _targetPhysics.GetPosition(), layer, path);
             bool hasPath = path.corners.Length != 0;
             direction = hasPath ? path.corners[1] - path.corners[0] : default;
             return hasPath;

@@ -3259,7 +3259,7 @@ MonoBehaviour:
     m_Flags: 0
   _orientation: {fileID: 1667177787}
   _defaultSpeedAmount: 5
-  _crouchSpeedAmount: 2
+  _crouchSpeedAmount: 2.5
   _damageAmount: 25
   _healthAmount: 100
   _deathDelay: 10000
