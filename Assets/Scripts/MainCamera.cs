@@ -3,7 +3,7 @@
     using UnityEngine;
     using UnityEngine.InputSystem;
 
-    public class Camera : MonoBehaviour
+    public class MainCamera : MonoBehaviour
     {
         [SerializeField] private InputAction _mousePosition;
         [SerializeField] private RectTransform _left;

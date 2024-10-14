@@ -8,7 +8,7 @@
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent<Health>(out var hit))
+            if (other.TryGetComponent<IDamageable>(out var hit))
                 _attack.SetHit(hit);
         }
     }

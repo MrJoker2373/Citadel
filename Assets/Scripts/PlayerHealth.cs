@@ -3,7 +3,7 @@
     using UnityEngine;
 
     [RequireComponent(typeof(UnitMachine))]
-    public class Health : MonoBehaviour
+    public class PlayerHealth : MonoBehaviour, IDamageable
     {
         [SerializeField] private int _health;
         private UnitMachine _machine;

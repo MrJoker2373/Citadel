@@ -61,34 +61,27 @@
     <Analyzer Include="D:\Programs\Unity\Installs\6000.0.14f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Units\UnitInput.cs" />
-    <Compile Include="Assets\Scripts\Units\UnitIdle.cs" />
-    <Compile Include="Assets\Scripts\Units\UnitInventory.cs" />
-    <Compile Include="Assets\Scripts\Units\IDefaultState.cs" />
-    <Compile Include="Assets\Scripts\EnemyController.cs" />
-    <Compile Include="Assets\Scripts\Units\UnitHealth.cs" />
-    <Compile Include="Assets\Scripts\Units\UnitInventoryTrigger.cs" />
-    <Compile Include="Assets\Scripts\PlayerController.cs" />
-    <Compile Include="Assets\Scripts\Units\IUnitState.cs" />
-    <Compile Include="Assets\Scripts\Units\IDeathState.cs" />
-    <Compile Include="Assets\Scripts\Units\ISpecialState.cs" />
-    <Compile Include="Assets\Scripts\Units\UnitDeath.cs" />
-    <Compile Include="Assets\Scripts\Units\UnitPhysics.cs" />
-    <Compile Include="Assets\Scripts\Units\UnitContainer.cs" />
-    <Compile Include="Assets\Scripts\Units\IItemController.cs" />
-    <Compile Include="Assets\Scripts\ItemController.cs" />
-    <Compile Include="Assets\Scripts\Units\UnitMovement.cs" />
-    <Compile Include="Assets\Scripts\Units\UnitRoll.cs" />
-    <Compile Include="Assets\Scripts\Units\UnitRotation.cs" />
-    <Compile Include="Assets\Scripts\Units\UnitRagdoll.cs" />
-    <Compile Include="Assets\Scripts\ComposerController.cs" />
-    <Compile Include="Assets\Scripts\Units\UnitMachine.cs" />
-    <Compile Include="Assets\Scripts\Units\UnitAgent.cs" />
-    <Compile Include="Assets\Scripts\Units\UnitController.cs" />
-    <Compile Include="Assets\Scripts\Units\UnitAttackTrigger.cs" />
-    <Compile Include="Assets\Scripts\Units\UnitAttack.cs" />
-    <Compile Include="Assets\Scripts\CameraController.cs" />
-    <Compile Include="Assets\Scripts\Units\UnitAnimation.cs" />
+    <Compile Include="Assets\Scripts\CoroutineLauncher.cs" />
+    <Compile Include="Assets\Scripts\MainCamera.cs" />
+    <Compile Include="Assets\Scripts\PathFinder.cs" />
+    <Compile Include="Assets\Scripts\RagdollComponent.cs" />
+    <Compile Include="Assets\Scripts\RollState.cs" />
+    <Compile Include="Assets\Scripts\CollectibleItem.cs" />
+    <Compile Include="Assets\Scripts\AnimationPlayer.cs" />
+    <Compile Include="Assets\Scripts\AttackTrigger.cs" />
+    <Compile Include="Assets\Scripts\PlayerHealth.cs" />
+    <Compile Include="Assets\Scripts\AttackState.cs" />
+    <Compile Include="Assets\Scripts\IDamageable.cs" />
+    <Compile Include="Assets\Scripts\PlayerInput.cs" />
+    <Compile Include="Assets\Scripts\PlayerMachine.cs" />
+    <Compile Include="Assets\Scripts\MovementState.cs" />
+    <Compile Include="Assets\Scripts\Ragdoll.cs" />
+    <Compile Include="Assets\Scripts\Inventory.cs" />
+    <Compile Include="Assets\Scripts\EnemyHealth.cs" />
+    <Compile Include="Assets\Scripts\EnemyInput.cs" />
+    <Compile Include="Assets\Scripts\UnitMachine.cs" />
+    <Compile Include="Assets\Scripts\DeathState.cs" />
+    <Compile Include="Assets\Scripts\EnemyMachine.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Graphics\TextMesh Pro\Shaders\TMPro.cginc" />

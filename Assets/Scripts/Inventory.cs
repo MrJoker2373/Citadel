@@ -6,10 +6,12 @@
     public class Inventory : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _coinsLabel;
-        [SerializeField] private TextMeshProUGUI _bombsLabel;
+        [SerializeField] private TextMeshProUGUI _keysLabel;
+        [SerializeField] private TextMeshProUGUI _potionsLabel;
         private CollectibleItem _currentItem;
         private int _coins;
-        private int _bombs;
+        private int _keys;
+        private int _potions;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -39,10 +41,15 @@
                 _coins++;
                 _coinsLabel.text = _coins.ToString();
             }
-            else if (_currentItem.IsType(CollectibleItem.ItemType.Bomb))
+            else if (_currentItem.IsType(CollectibleItem.ItemType.Key))
             {
-                _bombs++;
-                _bombsLabel.text = _bombs.ToString();
+                _keys++;
+                _keysLabel.text = _keys.ToString();
+            }
+            else if (_currentItem.IsType(CollectibleItem.ItemType.Potion))
+            {
+                _potions++;
+                _potionsLabel.text = _potions.ToString();
             }
             _currentItem.Collect();
             _currentItem = null;

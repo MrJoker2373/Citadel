@@ -6,7 +6,7 @@
 
     [RequireComponent(typeof(AnimationPlayer))]
     [RequireComponent(typeof(Rigidbody))]
-    [RequireComponent(typeof(Health))]
+    [RequireComponent(typeof(IDamageable))]
     public class AttackState : MonoBehaviour
     {
         private const string ATTACK1_ANIMATION = "Attack 1";
@@ -17,8 +17,8 @@
         [SerializeField] private int _defaultDamage;
         private AnimationPlayer _animation;
         private Rigidbody _rigidbody;
-        private Health _health;
-        private List<Health> _hits;
+        private IDamageable _health;
+        private List<IDamageable> _hits;
         private int _currentDamage;
         private int _currentCombo;
         private bool _isAttack;
@@ -28,7 +28,7 @@
         {
             _animation = GetComponent<AnimationPlayer>();
             _rigidbody = GetComponent<Rigidbody>();
-            _health = GetComponent<Health>();
+            _health = GetComponent<IDamageable>();
             _hits = new();
         }
 
@@ -37,7 +37,7 @@
             _currentDamage = _defaultDamage;
         }
 
-        public void SetHit(Health hit)
+        public void SetHit(IDamageable hit)
         {
             if (_isAttack == false)
                 return;

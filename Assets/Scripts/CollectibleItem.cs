@@ -16,7 +16,8 @@
         public enum ItemType
         {
             Coin,
-            Bomb
+            Key,
+            Potion
         }
     }
 }
