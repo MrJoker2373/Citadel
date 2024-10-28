@@ -15,7 +15,7 @@
 
         public override IEnumerator Refresh(float health, float capacity)
         {
-            var hearts = Mathf.RoundToInt(HEART_COUNT * health / capacity);
+            var hearts = Mathf.CeilToInt(HEART_COUNT * health / capacity);
             if (hearts >= 6)
                 yield return StartCoroutine(_heartRow2.PlayAsync(HIDE_ANIMATION, CROSS_FADE));
             else

@@ -9,7 +9,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{714FDE05-812F-8F3B-2227-15D8CCF09545}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -83,8 +84,8 @@
     <Compile Include="Assets\Scripts\Units\PlayerInput.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Graphics\Shaders\Surface.shader" />
     <None Include="Assets\Graphics\TextMesh Pro\Shaders\TMPro.cginc" />
+    <None Include="Assets\Graphics\Shaders\Stencil Material.shader" />
     <None Include="Assets\Graphics\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\Graphics\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
     <None Include="Assets\Graphics\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
@@ -107,7 +108,9 @@
     <None Include="Assets\Graphics\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\Graphics\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\Graphics\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+    <None Include="Assets\Graphics\Shaders\Stencil Mask.shader" />
     <None Include="Assets\Graphics\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+    <None Include="Assets\Graphics\Shaders\Shadow.shader" />
     <None Include="Assets\Graphics\TextMesh Pro\Shaders\TMP_Sprite.shader" />
   </ItemGroup>
   <ItemGroup>

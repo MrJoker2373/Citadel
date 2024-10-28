@@ -3,7 +3,37 @@ guid: f9058b1597cdb0740a4926d0e5a85005
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Alchfire.png
+    second: {fileID: 2100000, guid: c4a04e6330f7dd84a813f553c04b4fb4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Blood meat texture.png
+    second: {fileID: 2100000, guid: 7b96d6ef5233432479886bdc1cdfd562, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Branch texture.png
+    second: {fileID: 2100000, guid: de9f18e2b2d742343adbc726f5a4b691, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Coin texture.png
+    second: {fileID: 2100000, guid: 1f55ebd0f90adb149b5cbc22771833c6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Key texture.png
+    second: {fileID: 2100000, guid: d9fc503a935fa344590c4b26db35b9e9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Old wood texture.png
+    second: {fileID: 2100000, guid: 1cff7d740d9693145957f178069aa3af, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
